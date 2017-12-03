@@ -1,0 +1,7 @@
+jauntyc.analysis
+jauntyc.analysis.lexer
+jauntyc.analysis.parser
+jauntyc.analysis.parser.exception
+jauntyc.analysis.semantic
+jauntyc.analysis.semantic.exception
+jauntyc.jdlc

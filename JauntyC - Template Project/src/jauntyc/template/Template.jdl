@@ -1,0 +1,21 @@
+/**
+ * LICENSE HERE 
+ **/
+
+language: template;
+
+lexicon:{
+	templateTerminal = /template/$, "template terminal description";
+	
+	//matches the string "composite terminal"
+	compositeTerminal = </composite\s/$ & templateTerminal>;
+	
+	//the characters 'a' and ' '(space) are the only skippable characters
+	nonSkippable = /[^a\s]/$;
+}
+
+grammar:{
+	axiom = templateRule;
+	
+	templateRule = $templateTerminal;
+}
