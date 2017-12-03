@@ -26,7 +26,7 @@ public class AxiomResultException extends RuntimeException{
 
 	private static final long serialVersionUID = -9131756183397577894L;
 
-	private static final String MESSAGE = "Assiome's semantic action must return at most one result";
+	private static final String MESSAGE = "Axiom's semantic action must return at most one result";
 	
 	public AxiomResultException() {
 		super(MESSAGE);

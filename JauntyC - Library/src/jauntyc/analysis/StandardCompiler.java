@@ -56,16 +56,21 @@ public final class StandardCompiler {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Get the lexer used by this compiler
+	 * @return a {@link Lexer} object
 	 */
 	public Lexer getLexer(){return parser.getLexer();}
+
+	/**
+	 * Get the parser used by this compiler
+	 * @return a {@link Parser} object
+	 */
 	public Parser getParser(){return parser;}
+
+	/**
+	 * Get the interpreter used by this compiler
+	 * @return an {@link Interpreter} object
+	 */
 	public Interpreter getInterpreter(){return interpreter;}
-	
-	public void setInterpreter(Interpreter interpreter){
-		if(interpreter == null)
-			throw new NullPointerException("null interpreter");
-		this.interpreter = interpreter;
-	}
+
 }
