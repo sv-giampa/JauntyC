@@ -1,2 +1,0 @@
-JauntyC Library
-Copyright 2017 Salvatore Giampa'

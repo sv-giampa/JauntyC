@@ -1,24 +1,24 @@
 
-	                                JauntyC Library
+	                                JointyC Library
 	                                
-		The scope of this README is to give an overview over the library.
+		The scope of this README is to give an overview of the library.
 		For more details see the documentation.
 
 	1. Introduction.
 
-		JauntyC is a Java library to write compilers. Its main target is to move
+		JointyC is a Java library to write compilers. Its main target is to move
 		the attention of the developer from parsing to the semantic analysis and,
 		at the same time, to simplify this part of work.
 		The library is divided in two main modules:
 		
 			1. The analysis framework
 			
-			2. The Jaunty Definition Language Compiler (JDLC)
+			2. The JointyC Definition Language Compiler (JDLC)
 
 		The first module exposes a framework to face up to the analysis work,
 		composed by lexical, syntactic and semantic analysis.
 		The second module is based on the first one and provides a compiler for
-		the Jaunty Definition Language (JDL), used to define LL (Left-to-Right
+		the JointyC Definition Language (JDL), used to define LL (Left-to-Right
 		Left-most derivation) parsers for type 2 languages (context-free,
 		see Chomsky's Hierarchy). So, when a parser for a context-free language
 		is compiled, it is possible to add context information through semantics,
@@ -28,7 +28,7 @@
 
 	2. Software Engineering in the scope.
 	
-		As anticipated, the most important target of JauntyC is to simplify the
+		As anticipated, the most important target of JointyC is to simplify the
 		work of the developers, not only during construction, but also during 
 		maintenance. In fact, writing a recursive descent parser may result in
 		a difficult maintenance task. On the other hand, using a parser generator
@@ -36,7 +36,7 @@
 		simple to use library without any other dependencies or tools and
 		automatically re-compile the parser, without affecting heavily the
 		semantic analysis, when a change to the grammar is necessary. By using
-		the Jaunty Definition Language, the parser of the designed language will
+		the JointyC Definition Language, the parser of the designed language will
 		be re-compiled at every construction. The creation of the parser is moved
 		at runtime and totally automated. It appears not very efficient, but it is
 		not so, because the parser is compiled only at construction time, so the
@@ -67,7 +67,7 @@
 		JDL Compiler, to obtain a higher maintenance and readability performance.
 		
 	
-	4. The Jaunty Definition Language Compiler (JDL Compiler).
+	4. The JointyC Definition Language Compiler (JDL Compiler).
 		
 		By using the JDL Compiler it is possible to define and compile a parser
 		and the associated lexer at run-time. The objective is to have a double
@@ -89,11 +89,11 @@
 		
 	5. Conclusions and recommendations.
 		
-		For the explained reasons, the JauntyC library could be one of the best
+		For the explained reasons, the JointyC library could be one of the best
 		choices for designing a language for some project. It is emphasized
 		that this library is under Apache License 2.0, and then it could be
 		integrated also in a proprietary software, or used as a starting point
-		to obtain an enhanced version of it. To familiarize with JauntyC and its
+		to obtain an enhanced version of it. To familiarize with JointyC and its
 		programming method, it is highly recommended to start exploring the
 		provided tutorials and documentation.
 		
