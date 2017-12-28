@@ -49,7 +49,7 @@ import jointyc.analysis.parser.exception.UnexpectedSymbolException.ExpectedTermi
  */
 public class StandardParser implements EditableParser {
 
-	private static final boolean DEBUG_PRINT = true;
+	private static final boolean DEBUG_PRINT = false;
 	
 	//internal representation of rule
 	private static class Rule implements Iterable<String>{
@@ -469,10 +469,16 @@ public class StandardParser implements EditableParser {
 					if(DEBUG_PRINT) System.out.println("-- terminal fail: no input --\n");
 				}
 				
-				if(expected.size() == 0 || unexpectedPosition == data.lexerEnd){
+				if(unexpectedPosition < lexer.start())
+					expected.clear();
+				
+				if(expected.isEmpty() || unexpectedPosition == lexer.start()){
+					if(expected.isEmpty()) {
+						unexpectedPosition = lexer.start();
+						unexpectedToken = lexer.token();
+					}
+						
 					expected.add(new ExpectedTerminal(data.lexerEnd, product, lexer.description(product)));
-					unexpectedPosition = data.lexerEnd;
-					unexpectedToken = lexer.token();
 					if(DEBUG_PRINT) for(int i=0; i<stack.size(); i++) System.out.print("  ");
 					if(DEBUG_PRINT) System.out.println(String.format("-- expected='%s', data.lexerEnd=%s, unexpectedPosition=%s\n", product, data.lexerEnd, unexpectedPosition));
 					

@@ -1,0 +1,54 @@
+
+language: listTut;
+
+lexicon:{
+	number = /([0-9]+\.[0-9]*|[0-9]*\.[0-9]+|[0-9]+)([eE][\+\-]?[0-9]+)?/$, "number";
+	string = /\"[^\"]*\"|\'[^\']*\'/$, "string";
+	
+	//comma2 = <comma&string | number, /regex/>, "descripton";
+	comma = /\,/$, ",";
+	
+	//enclose homogeneous lists
+	homoOpen = /\</$, "<";
+	homoClose = /\>/$, ">";
+	
+	//enclose mixgeneous lists
+	mixOpen = /\{/$, "{";
+	mixClose = /\}/$, "}";
+	
+	//enclose a list which contains the same number repeated
+	//(e.g. <<1, 1, 1, 1>> or  <<2, 2, 2, 2, 2>>)
+	equalOpen = <homoOpen, homoOpen>, "<<";
+	equalClose = <homoClose, homoClose>, ">>";
+	
+	nonSkippable = /[^\s]/$;
+}
+
+grammar:{
+	
+	//a list can be homogeneous, mixed or it can be a repetition of the same number (e.g. [3, 3, 3, 3, 3])
+	list = homoList | mixList | equalNumbersList;
+	
+	//homogeneous lists
+	homoList = $homoOpen $string homoStringTail;	//list of strings
+	homoList = $homoOpen $number homoNumberTail;	//list of number
+	homoList = $homoOpen list homoListTail;			//list of lists
+	homoList = $homoOpen $homoClose; 				//empty list
+	
+	//homogeneous tails
+	homoStringTail = $comma $string homoStringTail | $homoClose;
+	homoNumberTail = $comma $number homoNumberTail | $homoClose;
+	homoListTail = $comma list homoListTail | $homoClose;
+	
+	//mixed list
+	mixList = $mixOpen value mixTail | $mixOpen $mixClose;
+	mixTail = $comma value mixTail | $mixClose;
+	
+	//multi-type value
+	value = $string | $number | list;
+	
+	//context-sensitive list (the interpreter must do the context checks)
+	equalNumbersList = $equalOpen $number equalNumbersTail;
+	equalNumbersTail = $comma $number equalNumbersTail | $equalClose;
+	
+}
