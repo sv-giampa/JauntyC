@@ -81,7 +81,7 @@
 		simpler to manage during semantic analysis than the EBNF (Extended BNF).
 		A grammar rule cannot produce directly a ground terminal, but each
 		terminal symbol must be assigned to a term of the lexicon. This choice
-		allows keep the grammar and the access to the syntax tree as generic
+		allows to keep the grammar and the access to the syntax tree as generic
 		as possible.
 		
 		
