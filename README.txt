@@ -4,7 +4,7 @@
 		The scope of this README is to give an overview of the library.
 		For more details see the documentation.
 
-	##1. Introduction.
+	1. Introduction.
 
 		JointyC is a Java library to write compilers. Its main target is to move
 		the attention of the developer from parsing to the semantic analysis and,
