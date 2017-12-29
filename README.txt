@@ -18,12 +18,10 @@
 		The first module exposes a framework to face up to the analysis work,
 		composed by lexical, syntactic and semantic analysis.
 		The second module is based on the first one and provides a compiler for
-		the JointyC Definition Language (JDL), used to define LL (Left-to-Right
-		Left-most derivation) parsers for type 2 languages (context-free,
-		see Chomsky's Hierarchy). So, when a parser for a context-free language
-		is compiled, it is possible to add context information through semantics,
-		defining, at all, a context-sensitive language, as the theory of formal
-		languages teach us.
+		the JointyC Definition Language (JDL), used to define recursive-descent
+		parsers for context-free languages, that can be adorned with contextual
+		information during semantic analysis, as the theory of formal languages
+		teaches us.
 
 
 	2. Software Engineering in the scope.
