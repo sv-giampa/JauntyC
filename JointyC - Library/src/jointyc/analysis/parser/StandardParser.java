@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,10 +39,8 @@ import jointyc.analysis.parser.exception.UnexpectedSymbolException.ExpectedTermi
 
 /**
  * Defines a standard implementation for an editable parser.
- * The parsing procedure is iterative.
  * This parser uses a cache to avoid revisiting of syntax structures.
  * The cache uses the LRU policy (Least Recently Used) for node replacing.
- * The default dimension of the cache is set to 500 nodes. 
  * 
  * @author Salvatore Giampà
  *
@@ -71,10 +69,13 @@ public class StandardParser implements EditableParser {
 			this.hashCode = computeHashCode();
 		}
 		
+		
+		@SuppressWarnings("unused")
 		public String getProduct(int index) {
 			return production.get(index);
 		}
 		
+		@SuppressWarnings("unused")
 		public int getProductionLength() {
 			return production.size();
 		}
@@ -120,14 +121,14 @@ public class StandardParser implements EditableParser {
 	}
 	
 	//entry for a cached node
-	private static class CacheEntry{
+	private static class CacheKey{
 		
 		//uses flyweight pattern to bound the explosiveness of memory
-		private static Map<String, Map<Integer, CacheEntry>> flyweight = new TreeMap<>();;
+		private static Map<String, Map<Integer, CacheKey>> flyweight = new TreeMap<>();
 		
-		public static CacheEntry get(String head, int startPosition) {
+		public static CacheKey get(String head, int startPosition) {
 			Integer pos = Integer.valueOf(startPosition);
-			Map<Integer, CacheEntry> posMap = null;
+			Map<Integer, CacheKey> posMap = null;
 			if(flyweight.containsKey(head)) {
 				posMap = flyweight.get(head);
 				if(posMap.containsKey(pos))
@@ -140,7 +141,7 @@ public class StandardParser implements EditableParser {
 				flyweight.put(head, posMap);
 			}
 			
-			CacheEntry cacheEntry = new CacheEntry(head, startPosition);
+			CacheKey cacheEntry = new CacheKey(head, startPosition);
 			posMap.put(pos, cacheEntry);
 			
 			return cacheEntry;
@@ -149,7 +150,7 @@ public class StandardParser implements EditableParser {
 		public final String product;
 		public final int startPosition;
 		
-		private CacheEntry(String product, int startPosition) {
+		private CacheKey(String product, int startPosition) {
 			this.product = product;
 			this.startPosition = startPosition;
 		}
@@ -172,7 +173,7 @@ public class StandardParser implements EditableParser {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			CacheEntry other = (CacheEntry) obj;
+			CacheKey other = (CacheKey) obj;
 			if (product == null) {
 				if (other.product != null)
 					return false;
@@ -184,6 +185,10 @@ public class StandardParser implements EditableParser {
 		}
 		
 	}
+	
+	//cache init - LRU policy (Least Recently Used) 
+	private Map<CacheKey, SyntaxNode> cache = new HashMap<>();
+	private LinkedHashSet<CacheKey> lruBuffer = new LinkedHashSet<>();
 	
 	/**
 	 * The max cache size
@@ -221,10 +226,10 @@ public class StandardParser implements EditableParser {
 	private Map<String, Set<String>> leftRec = new HashMap<>();
 	
 	/**
-	 * Construct a StandardParser with a cache size of 500 nodes
+	 * Construct a StandardParser with a cache size of 100 nodes
 	 */
 	public StandardParser() {
-		this.cacheSize = 500;
+		this.cacheSize = 100;
 	}
 	
 	/**
@@ -308,212 +313,143 @@ public class StandardParser implements EditableParser {
 		this.axiom = axiom;
 	}
 	
-	//A data area for a recursive rule production validation
-	private class StackData{
-		String head;
-		List<Rule> rules;
-		int currentRule = 0;
-		int currentProduct = 0;
-		int lexerStart = 0;
-		int lexerEnd = 0;
-		SyntaxNode ret;
-		SyntaxNode node;
-		boolean call = false;
-		List<SyntaxNode> nexts = new LinkedList<>();
+	public SyntaxTree parse() throws UnexpectedSymbolException {
+		expected = new HashSet<>();
+		lexer.setStart(0);
 		
-		public StackData(String rule, int lexerPos) {
-			this.rules = StandardParser.this.rules.get(rule);
-			this.lexerEnd = this.lexerStart = lexerPos;
-			this.head = rule;
+		SyntaxTree root = parse(axiom);
+		
+		cache.clear();
+		lruBuffer.clear();
+		
+		if(!lexer.next()) {
+			return root;
 		}
 		
-		public Rule getCurrentRule() {
-			return rules.get(currentRule);
-		}
+		throw new UnexpectedSymbolException(expected, unexpectedToken, unexpectedPosition, lexer.input());
 	}
 	
-	public SyntaxTree parse() throws UnexpectedSymbolException{
-		
-		expected = new HashSet<>();
-		LinkedList<StackData> stack = new LinkedList<>();
-		
-		//cache init - LRU policy (Least Recently Used) 
-		Map<CacheEntry, SyntaxNode> cache = new HashMap<>();
-		LinkedList<CacheEntry> lruBuffer = new LinkedList<>();
-		
-		//put root node
-		lexer.setStart(0);
-		StackData data = new StackData(axiom, lexer.start());
-		data.node = new SyntaxNode(lexer);
-		data.node.start = lexer.start();
-		data.node.type = axiom;
-		
-		stack.push(data);
-		
-		while(stack.size() > 0) {
-			data = stack.peek();
+	private SyntaxNode parse(String ruleHead) {
+		CacheKey cacheKey = CacheKey.get(ruleHead, lexer.start());
+		if(cache.containsKey(cacheKey)) {
+			if(DEBUG_PRINT) System.out.println(" << cache hit! >>");
 			
-			//if the current node was computed in another try -> cache hit
-			CacheEntry cacheKey = CacheEntry.get(data.head, data.lexerStart);
-			if(cache.containsKey(cacheKey)) {
-				stack.pop();
-				SyntaxNode node = cache.get(cacheKey);
-				if(stack.size() > 0) 
-					stack.peek().ret = node;
-				lexer.setStart(node.end+1);
+			lruBuffer.remove(cacheKey);
+			lruBuffer.add(cacheKey);
+			return cache.get(cacheKey);
+		}
+		
+		ArrayList<Rule> rules = this.rules.get(ruleHead);
+		if(rules == null)
+			return null;
+		int lexerStart = lexer.start(), lexerPos = lexerStart;
+		
+		SyntaxNode node = new SyntaxNode(lexer);
+		
+		boolean accept = false;
+		
+		for(Rule rule : rules) {
+			accept = true;
+			
+			for(String product : rule) {
+				lexer.setStart(lexerPos);
+				lexer.next();
 				
-				if(DEBUG_PRINT) System.out.println("<< cached node! >>");
-				continue;
-			}
-			
-			//returnig from a recursive call
-			if(data.call) {
-				data.call = false;
-				if(data.ret != null) {
-					//non-null result: success. go to next product
-					data.nexts.add(data.ret);
-					data.lexerEnd = data.ret.end+1;
-					data.ret = null;
+				if(product.startsWith(TERMINAL_PREFIX)) { //terminal
+					String type = product.substring(1);
+					if(lexer.next()) {
+						String token = lexer.token(type);
+						if(token != null) {
+							if(unexpectedPosition < lexer.end())
+								expected.clear();
+							
+							SyntaxNode son = new SyntaxNode(lexer);
+							
+							son.terminal = true;
+							son.type = type;
+							son.start = lexer.start();
+							son.end = lexer.end();
+							son.similarTypes = lexer.similarTypes();
+							
+							node.nexts.addLast(son);
+							
+							lexerPos = son.end()+1;
+							if(DEBUG_PRINT) System.out.println("accept terminal: " + token);
+							
+							continue;
+						}
+					}
+					
+					if(unexpectedPosition < lexer.start())
+						expected.clear();
+					
+					if(expected.isEmpty() || unexpectedPosition == lexer.start()){
+						if(expected.isEmpty()) {
+							unexpectedPosition = lexer.start();
+							unexpectedToken = lexer.token();
+						}
+						expected.add(new ExpectedTerminal(unexpectedPosition, type, lexer.description(type)));
+					}
+					
+					if(DEBUG_PRINT) System.out.println("error terminal: " + type + ", read=" + lexer.token());
+					accept = false;
 				}
-				else {
-					//null-result: fail, go to next rule
-					data.nexts.clear();
-					data.currentRule++;
-					data.currentProduct = 0;
-					lexer.setStart(data.lexerStart);
-				}
-			}
-			
-			if(data.rules == null || data.currentRule >= data.rules.size()) {
-				stack.pop();
-				
-				//return from this call, fail
-				if(DEBUG_PRINT) for(int i=0; i<stack.size()+1; i++) System.out.print("  ");
-				if(DEBUG_PRINT) System.out.println("return unsuccess: " + data.head + " \n");
-				
-				if(stack.size() > 0)
-					stack.peek().ret = null;
-				data = null;
-				continue;
-			}
-			
-			//get current rule
-			Rule rule = data.getCurrentRule();
-			
-			if(data.currentProduct >= rule.getProductionLength()) {
-				for(SyntaxNode next : data.nexts)
-					data.node.nexts.add(next);
-				data.node.end = lexer.end();
-				
-				//return from this call, success
-				stack.pop();
-				if(stack.size() > 0) 
-					stack.peek().ret = data.node;
+				else {	//non-terminal
 
-				if(DEBUG_PRINT) for(int i=0; i<stack.size()+1; i++) System.out.print("  ");
-				if(DEBUG_PRINT) System.out.println("return success: "+data.head+" \n");
-				
-				//LRU removing
-				if(lruBuffer.size() >= cacheSize)
-					cache.remove(lruBuffer.removeLast());
-				
-				//caching
-				CacheEntry cn = CacheEntry.get(data.head, data.lexerStart);
-				cache.put(cn, data.node);
-				
-				//LRU buffering
-				lruBuffer.addFirst(cn);
-				
-				continue;
-			}
-			
-			//get current product
-			String product = rule.getProduct(data.currentProduct);
-			
-			if(DEBUG_PRINT) for(int i=0; i<stack.size(); i++) System.out.print("  ");
-			if(DEBUG_PRINT) System.out.print("rule: " + rule + " : currentProduct=" + product + "(" + data.currentProduct + ") : ");
-			
-			data.currentProduct++;
-
-			if(product.startsWith(TERMINAL_PREFIX)) {
-				if(DEBUG_PRINT) System.out.println("terminal");
-				
-				//terminal
-				product = product.substring(1);
-				if(lexer.next()) {
-					String token = lexer.token(product);
-					if(token != null) {
-						if(unexpectedPosition < data.lexerEnd)
-							expected.clear();
-						
-						SyntaxNode node = new SyntaxNode(lexer);
-						
-						node.terminal = true;
-						node.type = product;
-						node.start = lexer.start();
-						node.end = lexer.end();
-						node.similarTypes = lexer.similarTypes();
-						
-						data.lexerEnd = lexer.end()+1;
-						data.nexts.add(node);
-						
-						continue;
+					if(DEBUG_PRINT) System.out.println("entering non-terminal: " + product);
+					SyntaxNode son = parse(product);
+					if(son != null) {
+						if(DEBUG_PRINT) System.out.println("accept non-terminal: " + product);
+						lexerPos = son.end+1;
+						node.nexts.addLast(son);
 					}
 					else {
-						if(DEBUG_PRINT) for(int i=0; i<stack.size(); i++) System.out.print("  ");
-						if(DEBUG_PRINT) System.out.println("-- terminal fail: matching (found \""+lexer.token()+"\") --\n");
+						if(DEBUG_PRINT) System.out.println("error non-terminal: " + product);
+						accept = false;
 					}
-				}
-				else {
-					if(DEBUG_PRINT) for(int i=0; i<stack.size(); i++) System.out.print("  ");
-					if(DEBUG_PRINT) System.out.println("-- terminal fail: no input --\n");
-				}
-				
-				if(unexpectedPosition < lexer.start())
-					expected.clear();
-				
-				if(expected.isEmpty() || unexpectedPosition == lexer.start()){
-					if(expected.isEmpty()) {
-						unexpectedPosition = lexer.start();
-						unexpectedToken = lexer.token();
-					}
-						
-					expected.add(new ExpectedTerminal(data.lexerEnd, product, lexer.description(product)));
-					if(DEBUG_PRINT) for(int i=0; i<stack.size(); i++) System.out.print("  ");
-					if(DEBUG_PRINT) System.out.println(String.format("-- expected='%s', data.lexerEnd=%s, unexpectedPosition=%s\n", product, data.lexerEnd, unexpectedPosition));
 					
 				}
 				
-				data.currentRule++;
-				data.currentProduct=0;
-				data.nexts.clear();
-				data.lexerEnd = data.lexerStart;
-				lexer.setStart(data.lexerStart);
-			}
-			else {
-				if(DEBUG_PRINT) System.out.println("non-terminal");
-				if(DEBUG_PRINT) System.out.println();
+				if(!accept)
+					break;
 				
-				//non-terminal
-				data.call = true;
-				
-				data = new StackData(product, data.lexerEnd);
-				data.node = new SyntaxNode(lexer);
-				data.node.start = data.lexerEnd;
-				data.node.type = product;
-
-				stack.push(data);
 			}
 			
+			if(accept)
+				break;
+			else {
+				node.nexts.clear();
+				lexerPos = lexerStart;
+				if(DEBUG_PRINT) System.out.println("pos=" + lexerPos);
+			}
 		}
 		
-		lexer.next();
-		if(data != null && lexer.end() == lexer.input().length()-1) {
-			//parsing successful
-			SyntaxTree root = data.node;
-			return root;
+		if(!accept) {
+			return null;
 		}
-		else throw new UnexpectedSymbolException(expected, unexpectedToken, unexpectedPosition, lexer.input());
+		
+		lexer.setStart(lexerPos);
+		node.type = ruleHead;
+		node.start = lexerStart;
+		node.end = lexerPos-1;
+		
+		if(lexerPos >= lexerStart) {
+			//LRU removing
+			if(lruBuffer.size() >= cacheSize) {
+				cacheKey = lruBuffer.iterator().next();
+				lruBuffer.remove(cacheKey);
+				cache.remove(cacheKey);
+			}
+			
+			//caching
+			cacheKey = CacheKey.get(ruleHead, lexerStart);
+			cache.put(cacheKey, node);
+			
+			//LRU buffering
+			lruBuffer.add(cacheKey);
+		}
+		
+		return node;
 	}
 	
 	/*
