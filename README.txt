@@ -4,7 +4,7 @@
 		The scope of this README is to give an overview of the library.
 		For more details see the documentation.
 
-	##1. Introduction.
+	1. Introduction.
 
 		JointyC is a Java library to write compilers. Its main target is to move
 		the attention of the developer from parsing to the semantic analysis and,
@@ -18,12 +18,10 @@
 		The first module exposes a framework to face up to the analysis work,
 		composed by lexical, syntactic and semantic analysis.
 		The second module is based on the first one and provides a compiler for
-		the JointyC Definition Language (JDL), used to define LL (Left-to-Right
-		Left-most derivation) parsers for type 2 languages (context-free,
-		see Chomsky's Hierarchy). So, when a parser for a context-free language
-		is compiled, it is possible to add context information through semantics,
-		defining, at all, a context-sensitive language, as the theory of formal
-		languages teach us.
+		the JointyC Definition Language (JDL), used to define recursive-descent
+		parsers for context-free languages, that can be adorned with contextual
+		information during semantic analysis, as the theory of formal languages
+		teaches us.
 
 
 	2. Software Engineering in the scope.
@@ -83,7 +81,7 @@
 		simpler to manage during semantic analysis than the EBNF (Extended BNF).
 		A grammar rule cannot produce directly a ground terminal, but each
 		terminal symbol must be assigned to a term of the lexicon. This choice
-		allows keep the grammar and the access to the syntax tree as generic
+		allows to keep the grammar and the access to the syntax tree as generic
 		as possible.
 		
 		
