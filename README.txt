@@ -36,19 +36,18 @@
 		semantic analysis, when a change to the grammar is necessary. By using
 		the JointyC Definition Language, the parser of the designed language will
 		be re-compiled at every construction. The creation of the parser is moved
-		at runtime and totally automated. It appears not very efficient, but it is
-		not so, because the parser is compiled only at construction time, so the
-		parsing proceed easily after that operation. The target, from the point
-		of view of Software Engineering, is to write a parser according to its
-		language specifics, and to modify it when the language specifics are 
-		changed or extended.
+		at runtime and totally automated. The parser is compiled only at
+		construction time, so the parsing proceed easily after that operation. 
+		The target, from the point of view of Software Engineering, is to write
+		a parser according to its language specifics, and to modify it when the
+		language specifics are changed or extended.
 		More details over this process and other functionalities are described
 		in the documentation.
 
 
 	3. The analysis framework.
 	
-		The analysis framework is dived in three sub-modules: lexer, parser and
+		The analysis framework is divided in three sub-modules: lexer, parser and
 		semantic analyzer. The framework provides all the interfaces that define
 		the functionalities for lexers, parsers and interpreters.
 		Lexer and parser modules define a proper final implementation, indicated
