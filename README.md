@@ -1,7 +1,11 @@
 # JointyC Library
 	                                
 The scope of this README is to give an overview of the library.
-For more details see the documentation.
+For more details see the following:
+
+JointyC Library Wiki: https://github.com/sv-giampa/JointyC-Library/wiki
+
+JointyC Library JavaDoc is available at https://sv-giampa.github.io/JointyC-Library/
 
 ## 1. Introduction.
 
