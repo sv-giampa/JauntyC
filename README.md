@@ -19,8 +19,7 @@ composed by lexical, syntactic and semantic analysis.
 The second module is based on the first one and provides a compiler for
 the JointyC Definition Language (JDL), used to define recursive-descent
 parsers for context-free languages, that can be adorned with contextual
-information during semantic analysis, as the theory of formal languages
-teaches us.
+information during semantic analysis.
 
 
 ## 2. Software Engineering in the scope.
@@ -36,12 +35,17 @@ semantic analysis, when a change to the grammar is necessary. By using
 the JointyC Definition Language, the parser of the designed language will
 be re-compiled at every construction. The creation of the parser is moved
 at runtime and totally automated. The parser is compiled only at
-construction time, so the parsing proceed easily after that operation. 
+construction time, so the parsing proceed easily after that operation.
+Moreover a compiler can be serialized by using the standard serialization
+process of Java. thi process is useful if it is needed more preformance 
+during the compiler loading, but it is required to build the compiler
+before the deployment phase of the project (it will not be built at
+runtime, but only loaded).
 The target, from the point of view of Software Engineering, is to write
 a parser according to its language specifics, and to modify it when the
 language specifics are changed or extended.
 More details over this process and other functionalities are described
-in the documentation.
+in the documentation and in the wiki.
 
 
 ## 3. The analysis framework.
