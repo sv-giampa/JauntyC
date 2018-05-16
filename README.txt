@@ -94,6 +94,10 @@
 		programming method, it is highly recommended to start exploring the
 		provided tutorials and documentation.
 		
+	6. Tutorials and template project
+		
+		See at https://github.com/sv-giampa/JointyC-Tutorials
+		
 		
 		
 		
