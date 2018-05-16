@@ -17,6 +17,8 @@
 
 package jointyc.analysis;
 
+import java.io.Serializable;
+
 import jointyc.analysis.lexer.Lexer;
 import jointyc.analysis.parser.Parser;
 import jointyc.analysis.parser.SyntaxTree;
@@ -32,7 +34,8 @@ import jointyc.analysis.semantic.exception.SemanticException;
  * @author Salvatore Giampà
  *
  */
-public final class StandardCompiler {
+public final class StandardCompiler implements Serializable {
+	private static final long serialVersionUID = 7410382528782276215L;
 	
 	private Parser parser;
 	private Interpreter interpreter;
