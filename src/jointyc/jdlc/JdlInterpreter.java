@@ -66,7 +66,7 @@ class JdlInterpreter implements Interpreter {
 	//The compiler that is using this interpreter instance
 	private JdlCompiler compiler;
 	
-	//the axiom of the parser
+	//the axiom of the builded parser
 	private String assiome;
 
 	public JdlInterpreter(JdlCompiler compiler) {
@@ -135,7 +135,7 @@ class JdlInterpreter implements Interpreter {
 			} catch (IOException e) {
 				throw new SemanticException(e, tree, "JDL Compiler - language: " + imports.peek());
 			} catch (UnexpectedSymbolException e) {
-				throw new SemanticException(e, tree, "JDL Compiler - language: " + imports.peek());
+				throw new SemanticException(e, tree, "JDL Compiler - language: " + imports.peek() + ". Error in imported file \"" + filename + "\"");
 			}
 			return;
 		}

@@ -67,14 +67,14 @@ public interface SyntaxTree extends Iterable<SyntaxTree> {
 	/**
 	 * Gets the position at which this token starts.
 	 * 
-	 * @return the start position of this token
+	 * @return the index of the start character of this token
 	 */
 	public int start();
 
 	/**
 	 * Gets the position at which this token ends.
 	 * 
-	 * @return the end position of this token
+	 * @return the index of the last character of this token
 	 */
 	public int end();
 
@@ -108,9 +108,9 @@ public interface SyntaxTree extends Iterable<SyntaxTree> {
 	 * Terminal and non-terminal symbols are distinguished in the production, by the prefix specified by {@link EditableParser#TERMINAL_PREFIX}.</br>    
 	 * See the logic of {@link EditableParser#addRule(String, String...)} for more information.</br>
 	 * </br>
-	 * If the specified production length is exactly 1 and its first element (production[0]) is equal to "#", then returns true this tree has some next, false otherwise.</br>    
+	 * If the specified production length is exactly 1 and its first element (production[0]) is equal to "#", then returns true if this tree has no next, false otherwise.</br>    
 	 * </br>
-	 * If the specified production length is exactly 1 and its first element (production[0]) is equal to "!#", then returns true this tree has no next, false otherwise.</br>    
+	 * If the specified production length is exactly 1 and its first element (production[0]) is equal to "!#", then returns true if this tree has some next, false otherwise.</br>    
 	 * </br>
 	 * </br>
 	 * Example: (assume the character # is the empty string)</br>

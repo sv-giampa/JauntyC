@@ -374,7 +374,7 @@ public class StandardParser implements EditableParser {
 							node.nexts.addLast(son);
 							
 							lexerPos = son.end()+1;
-							if(DEBUG_PRINT) System.out.println("accept terminal: " + token);
+							if(DEBUG_PRINT) System.out.println("accept terminal: " + type + " (\"" + token + "\")");
 							
 							continue;
 						}

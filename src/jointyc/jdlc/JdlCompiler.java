@@ -111,6 +111,7 @@ public class JdlCompiler {
 			
 			//lexer rules (token types)
 			jdlParser.addRule("lex", "$lex", "$labelSeparator", "$blockOpen", "lexRuleList", "$blockClose");
+			jdlParser.addRule("lex");
 			jdlParser.addRule("lexRuleList", "lexRule", "$separator", "lexRuleListEps");
 			jdlParser.addRule("lexRuleListEps", "lexRuleList");
 			jdlParser.addRule("lexRuleListEps");

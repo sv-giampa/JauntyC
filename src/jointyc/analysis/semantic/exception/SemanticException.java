@@ -94,7 +94,7 @@ public class SemanticException extends Exception {
 	
 	@Override
 	public String toString() {
-		return  String.format("%s[line: %s; column: %s; position: %s]\n%s ", tag!=null?tag + " ":"", startLine, startColumn, start, supplement!=null?supplement:"") + super.toString();                   
+		return  String.format("[line: %s; column: %s; position: %s] %s\n\n%s ", startLine, startColumn, start, tag!=null?tag + " ":"", supplement!=null?supplement:"") + super.toString();                   
 	}
 	
 }

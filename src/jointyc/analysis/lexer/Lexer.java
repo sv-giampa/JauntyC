@@ -111,7 +111,7 @@ public interface Lexer extends Cloneable{
 	/**
 	 * Get the end position of the currently matched type. It is the end of
 	 * the token matching the default type just after a call to the {@link #next()} method,
-	 * or the length of the token matching the type just passed to the {@link #token(String)} method.
+	 * or the end of the token matching the type just passed to the {@link #token(String)} method.
 	 * @return the end position of the current matching token
 	 */
 	int end();
