@@ -1,5 +1,5 @@
 /**
- *  Copyright 2017 Salvatore Giamp‡
+ *  Copyright 2017 Salvatore Giamp√†
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ import jointyc.analysis.semantic.exception.SemanticException;
 
 /**
  * Defines the interpreter for the JointyC Definition Language
- * @author Salvatore Giamp‡
+ * @author Salvatore Giamp√†
  *
  */
 class JdlInterpreter implements Interpreter {
@@ -66,7 +66,7 @@ class JdlInterpreter implements Interpreter {
 	//The compiler that is using this interpreter instance
 	private JdlCompiler compiler;
 	
-	//the axiom of the builded parser
+	//the axiom of the built parser
 	private String assiome;
 
 	public JdlInterpreter(JdlCompiler compiler) {
