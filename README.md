@@ -3,9 +3,11 @@
 The scope of this README is to give an overview of the library.
 For more details see the following:
 
-JointyC Library Wiki: https://github.com/sv-giampa/JointyC-Library/wiki
+* Wiki: https://github.com/sv-giampa/JointyC-Library/wiki
 
-JointyC Library JavaDoc is available at https://sv-giampa.github.io/JointyC-Library/
+* JavaDoc: https://sv-giampa.github.io/JointyC-Library/
+
+* Tutorials and template project: 	https://github.com/sv-giampa/JointyC-Tutorials
 
 ## 1. Introduction.
 
@@ -100,10 +102,6 @@ integrated also in a proprietary software, or used as a starting point
 to obtain an enhanced version of it. To familiarize with JointyC and its
 programming method, it is highly recommended to start exploring the
 provided tutorials and documentation.
-
-## 6. Tutorials and template project
-
-See at https://github.com/sv-giampa/JointyC-Tutorials
 		
 		
 		
