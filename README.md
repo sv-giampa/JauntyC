@@ -41,7 +41,7 @@ be re-compiled at every construction. The creation of the parser is moved
 at runtime and totally automated. The parser is compiled only at
 construction time, so the parsing proceed easily after that operation.
 Moreover a compiler can be serialized by using the standard serialization
-process of Java. thi process is useful if it is needed more preformance 
+process of Java. This process is useful if it is needed more preformance 
 during the compiler loading, but it is required to build the compiler
 before the deployment phase of the project (it will not be built at
 runtime, but only loaded).
