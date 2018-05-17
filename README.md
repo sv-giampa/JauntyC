@@ -14,9 +14,9 @@ the attention of the developer from parsing to the semantic analysis and,
 at the same time, to simplify this part of work.
 The library is divided in two main modules:
 
-	1. The analysis framework
+1. The analysis framework
 
-	2. The JointyC Definition Language Compiler (JDLC)
+2. The JointyC Definition Language Compiler (JDLC)
 
 The first module exposes a framework to face up to the analysis work,
 composed by lexical, syntactic and semantic analysis.
