@@ -1,7 +1,13 @@
 # JointyC Library
 	                                
 The scope of this README is to give an overview of the library.
-For more details see the documentation.
+For more details see the following:
+
+* Wiki: https://github.com/sv-giampa/JointyC-Library/wiki
+
+* JavaDoc: https://sv-giampa.github.io/JointyC-Library/
+
+* Tutorials and template project: 	https://github.com/sv-giampa/JointyC-Tutorials
 
 ## 1. Introduction.
 
@@ -10,9 +16,9 @@ the attention of the developer from parsing to the semantic analysis and,
 at the same time, to simplify this part of work.
 The library is divided in two main modules:
 
-	1. The analysis framework
+1. The analysis framework
 
-	2. The JointyC Definition Language Compiler (JDLC)
+2. The JointyC Definition Language Compiler (JDLC)
 
 The first module exposes a framework to face up to the analysis work,
 composed by lexical, syntactic and semantic analysis.
@@ -37,7 +43,7 @@ be re-compiled at every construction. The creation of the parser is moved
 at runtime and totally automated. The parser is compiled only at
 construction time, so the parsing proceed easily after that operation.
 Moreover a compiler can be serialized by using the standard serialization
-process of Java. thi process is useful if it is needed more preformance 
+process of Java. This process is useful if it is needed more preformance 
 during the compiler loading, but it is required to build the compiler
 before the deployment phase of the project (it will not be built at
 runtime, but only loaded).
@@ -96,10 +102,6 @@ integrated also in a proprietary software, or used as a starting point
 to obtain an enhanced version of it. To familiarize with JointyC and its
 programming method, it is highly recommended to start exploring the
 provided tutorials and documentation.
-
-## 6. Tutorials and template project
-
-See at https://github.com/sv-giampa/JointyC-Tutorials
 		
 		
 		
