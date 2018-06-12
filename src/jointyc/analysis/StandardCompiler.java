@@ -49,7 +49,7 @@ public final class StandardCompiler implements Serializable {
 		
 		this.parser = parser;
 		this.interpreter = interpreter;
-		this.analyzer = new SemanticAnalyzer(interpreter);
+		this.analyzer = new SemanticAnalyzer(interpreter, parser);
 	}
 	
 	public Object compile(String source) throws UnexpectedSymbolException, SemanticException{

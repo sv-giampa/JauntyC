@@ -3,5 +3,7 @@ jointyc.analysis.lexer
 jointyc.analysis.parser
 jointyc.analysis.parser.exception
 jointyc.analysis.semantic
+jointyc.analysis.semantic.annotation
 jointyc.analysis.semantic.exception
 jointyc.jdlc
+jointyc.jdlc.exception

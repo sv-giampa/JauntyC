@@ -17,6 +17,9 @@
 
 package jointyc.analysis.semantic.exception;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
 import jointyc.analysis.parser.SyntaxTree;
 
 /**
@@ -27,9 +30,10 @@ import jointyc.analysis.parser.SyntaxTree;
 public class SemanticException extends Exception {
 	private static final long serialVersionUID = 1021579297957230596L;
 	
-	public final Object supplement;
+	public final Throwable supplement;
 	public final String token, source, tag;
 	public int start, end, startLine, startColumn, endLine, endColumn;
+	
 	
 	/**
 	 * Creates a new SemanticException
@@ -40,8 +44,8 @@ public class SemanticException extends Exception {
 	 * 				the name of the compiled module. When the language supports importing/including directives for multi-module programming,
 	 * 				the tag is useful to address the file which contains the error.
 	 */
-	public SemanticException(String message, Object supplement, SyntaxTree tree, String tag){ //String token, int start, int end, String input){
-		super(message);
+	public SemanticException(Throwable supplement, SyntaxTree tree, String tag){ //String token, int start, int end, String input){
+		super();
 		this.tag = tag;
 		this.supplement = supplement;
 		this.token = tree.token();
@@ -71,30 +75,40 @@ public class SemanticException extends Exception {
 		}
 	}
 	
-	public SemanticException(String message, SyntaxTree tree){ //String token, int start, int end, String input){
-		this(message,null,tree,null);
+	public SemanticException(Throwable supplement, SyntaxTree tree){
+		this(supplement, tree, null);
 	}
 	
-	public SemanticException(String message, SyntaxTree tree, String tag){ //String token, int start, int end, String input){
-		this(message,null,tree,tag);
+	@Override
+	public void printStackTrace() {
+		if(supplement instanceof Throwable) {
+			System.err.println("SemanticException: " + toString());
+			supplement.printStackTrace();
+		}
+		else super.printStackTrace();
 	}
 	
-	public SemanticException(String message, Object supplement, SyntaxTree tree){ //String token, int start, int end, String input){
-		this(message,supplement,tree,null);
+	@Override
+	public void printStackTrace(PrintWriter s) {
+		if(supplement instanceof Throwable) {
+			s.println("SemanticException: " + toString());
+			supplement.printStackTrace(s);
+		}
+		else super.printStackTrace(s);
 	}
 	
-	public SemanticException(Exception supplement, SyntaxTree tree){ //String token, int start, int end, String input){
-		this(supplement.getMessage(), supplement, tree);
-	}
-	
-	
-	public SemanticException(Exception supplement, SyntaxTree tree, String tag){ //String token, int start, int end, String input){
-		this(supplement.getMessage(), supplement, tree, tag);
+	@Override
+	public void printStackTrace(PrintStream s) {
+		if(supplement instanceof Throwable) {
+			s.println("SemanticException: " + toString());
+			supplement.printStackTrace(s);
+		}
+		else super.printStackTrace(s);
 	}
 	
 	@Override
 	public String toString() {
-		return  String.format("[line: %s; column: %s; position: %s] %s\n\n%s ", startLine, startColumn, start, tag!=null?tag + " ":"", supplement!=null?supplement:"") + super.toString();                   
+		return  String.format("[line: %s; column: %s; position: %s] %s\n ", startLine, startColumn, start, tag!=null?tag + " ":"");                   
 	}
 	
 }

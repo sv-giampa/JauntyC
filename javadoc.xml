@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="public" author="true" classpath="." destdir="docs" doctitle="JointyC Library" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="jointyc.analysis.semantic.annotation,jointyc.analysis.semantic.exception,jointyc.jdlc.exception,jointyc.analysis.parser,jointyc.analysis.parser.exception,jointyc.jdlc,jointyc.analysis,jointyc.analysis.lexer,jointyc.analysis.semantic" source="1.8" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

@@ -46,16 +46,16 @@ public interface EditableParser extends Parser{
 	final String RULE_PATTERN = "[a-zA-Z][a-zA-Z0-9_\\.\\#]*";
 
 	/**
-	 * Adds a new rule to this parser.</br>
-	 * The production parameter might contain, indifferently, terminal and non-terminal symbols.</br>
-	 * Terminal and non-terminal symbols are distinguished by adding the prefix specified by {@link #TERMINAL_PREFIX} to the product name.</br>
-	 * (for example: {@link #TERMINAL_PREFIX} + "double", specifies that the type "double" is terminal.</br>
-	 * </br>
-	 * A rule name must match the regex specified by {@link #RULE_PATTERN}</br>
+	 * Adds a new rule to this parser.<br/>
+	 * The production parameter might contain, indifferently, terminal and non-terminal symbols.<br/>
+	 * Terminal and non-terminal symbols are distinguished by adding the prefix specified by {@link #TERMINAL_PREFIX} to the product name.<br/>
+	 * (for example: {@link #TERMINAL_PREFIX} + "double", specifies that the type "double" is terminal.<br/>
+	 * <br/>
+	 * A rule name must match the regex specified by {@link #RULE_PATTERN}<br/>
 	 * @param tag the tag associated to this rule
 	 * @param rule the production head
 	 * @param production the production tail
-	 * @throws InfiniteRecursionException if the specified rule closes an infinite left recursion chain</br>
+	 * @throws InfiniteRecursionException if the specified rule closes an infinite left recursion chain<br/>
 	 * (e.g. A->Ba; B->Cb; C->Ac; the last rule will throw an {@link InfiniteRecursionException})
 	 * @throws InvalidRuleNameException if the rule name is not valid, according to the pattern {@link #RULE_PATTERN}
 	 */

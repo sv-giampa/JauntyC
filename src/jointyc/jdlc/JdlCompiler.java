@@ -223,11 +223,11 @@ public class JdlCompiler {
 
 	/**
 	 * Compile a JDL text file included as a Java resource and creates a StandardCompiler with the specified interpreter
-	 * @param path the path of the resource to compile.</br>
+	 * @param path the path of the resource to compile.<br/>
 	 * 			Examples: <ul>
 	 * 				<li>absolute package - "my/java/package/resource.jdl": the file "resource.jdl" is in the package "my.java.package";
 	 * 				<li>relative package - "resource.jdl": the file "resource.jdl" is in the same package of the interpreter
-	 * 			</lu>
+	 * 			</ul>
 	 * @param interpreter the interpreter of the language
 	 * @return a StandardCompiler for the language
 	 * @throws UnexpectedSymbolException if the source string presents syntax errors

@@ -17,6 +17,8 @@
 
 package jointyc.analysis.parser;
 
+import java.util.List;
+
 import jointyc.analysis.lexer.Lexer;
 import jointyc.analysis.parser.exception.UnexpectedSymbolException;
 
@@ -45,4 +47,21 @@ public interface Parser {
 	 * @throws UnexpectedSymbolException if an unexpected symbol was found.
 	 */
 	SyntaxTree parse() throws UnexpectedSymbolException;
+	
+	/**
+	 * Gets the productions associated to the specified rule head.
+	 * The returned production lists adhere to the logic of {@link #addRule(String, String...)}, to distinguish terminal tokens from non-terminal ones.
+	 * @param head the head of the rule
+	 * @return the list of production lists
+	 */
+	List<List<String>> getRule(String head);
+	
+	String getAxiom();
+	
+	/**
+	 * Check the existence of at least a production rule for the specified non-terminal token.
+	 * @param token the head of the productions rules to be checked. It is a non-terminal token.
+	 * @return true if the specified non-terminal token produces something, false otherwise.
+	 */
+	boolean ruleExists(String head, String... production);
 }

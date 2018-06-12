@@ -17,18 +17,20 @@
 
 package jointyc.analysis.semantic.exception;
 
+import jointyc.analysis.semantic.annotation.NoBufferClear;
+
 /**
- * Usually thrown when the last semantic action of an interpreter left more than one object in the result buffer.
+ * Thrown when the interpreter method of the axiom has been annotated with the {@link NoBufferClear} annotation.
  * @author Salvatore Giampà
  *
  */
-public class AxiomResultException extends RuntimeException{
+public class AxiomBufferClearException extends RuntimeException{
 
 	private static final long serialVersionUID = -9131756183397577894L;
 
-	private static final String MESSAGE = "Axiom's semantic action must return at most one result";
+	private static final String MESSAGE = "Axiom's semantic action must return at most one result and thus can not be annotated with @NoBufferClear";
 	
-	public AxiomResultException() {
+	public AxiomBufferClearException() {
 		super(MESSAGE);
 	}
 }

@@ -17,6 +17,8 @@
 
 package jointyc.analysis.parser;
 
+import java.util.List;
+
 import jointyc.analysis.lexer.Lexer;
 import jointyc.analysis.parser.exception.UnexpectedSymbolException;
 
@@ -56,6 +58,21 @@ public class ParserWrapper implements Parser {
 	@Override
 	public SyntaxTree parse() throws UnexpectedSymbolException {
 		return parser.parse();
+	}
+
+	@Override
+	public List<List<String>> getRule(String head) {
+		return parser.getRule(head);
+	}
+
+	@Override
+	public boolean ruleExists(String head, String... production) {
+		return parser.ruleExists(head, production);
+	}
+
+	@Override
+	public String getAxiom() {
+		return parser.getAxiom();
 	}
 	
 }

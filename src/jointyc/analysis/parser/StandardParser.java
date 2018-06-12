@@ -270,20 +270,24 @@ public class StandardParser implements EditableParser {
 				
 			}
 		}
-		
+
 		ArrayList<Rule> current = null;
+		List<List<String>> currentProd = null;
 				
-		if(rules.containsKey(head))
+		if(rules.containsKey(head)) {
 			current = rules.get(head);
+		}
 		else{
 			current = new ArrayList<>();
+			currentProd = new ArrayList<>();
 			rules.put(head, current);
 		}
 		
 		Rule rule = new Rule(head, production);
 		
-		if(!current.contains(rule))
+		if(!current.contains(rule)) {
 			current.add(rule);
+		}
 
 		if(axiom == null) axiom = head;
 	}
@@ -451,6 +455,33 @@ public class StandardParser implements EditableParser {
 		
 		return node;
 	}
+
+	@Override
+	public List<List<String>> getRule(String head) {
+		ArrayList<Rule> rules = this.rules.get(head);
+		ArrayList<List<String>> productions = new ArrayList<>();
+		
+		for(Rule rule : rules)
+			productions.add(rule.production);
+		
+		return productions;
+	}
+
+	@Override
+	public boolean ruleExists(String head, String... production) {
+		ArrayList<Rule> rules = this.rules.get(head);
+		if(rules == null) return false;
+		for(Rule rule : rules)
+			if(rule.production.containsAll(Arrays.asList(production)))
+				return true;
+		return false;
+	}
+
+	@Override
+	public String getAxiom() {
+		return axiom;
+	}
+	
 	
 	/*
 	public static void main(String[] args) throws IOException {

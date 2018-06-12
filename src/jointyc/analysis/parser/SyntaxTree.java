@@ -17,6 +17,7 @@
 
 package jointyc.analysis.parser;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import jointyc.analysis.lexer.Lexer;
@@ -29,7 +30,7 @@ import jointyc.analysis.lexer.Lexer;
  * @author Salvatore Giampà
  *
  */
-public interface SyntaxTree extends Iterable<SyntaxTree> {
+public interface SyntaxTree extends Iterable<SyntaxTree>, Serializable {
 
 	SyntaxIterator iterator();
 	

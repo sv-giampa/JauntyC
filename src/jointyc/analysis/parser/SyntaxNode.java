@@ -30,6 +30,8 @@ import jointyc.analysis.lexer.Lexer;
  *
  */
 final class SyntaxNode implements SyntaxTree{
+	private static final long serialVersionUID = 4161433025941026966L;
+	
 	boolean terminal;
 	String type;
 	int start;
