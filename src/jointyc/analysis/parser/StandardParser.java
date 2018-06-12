@@ -17,6 +17,7 @@
 
 package jointyc.analysis.parser;
 
+import java.io.EOFException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -219,6 +220,8 @@ public class StandardParser implements EditableParser {
 	
 	private int unexpectedPosition;
 	
+	private boolean unexpectedEOF;
+	
 	/**
 	 * Store the detected direct recursions (without forwarding the lexer).
 	 * Used to detect infinite recursions.
@@ -320,13 +323,14 @@ public class StandardParser implements EditableParser {
 	public SyntaxTree parse() throws UnexpectedSymbolException {
 		expected = new HashSet<>();
 		lexer.setStart(0);
+		unexpectedEOF = false;
 		
 		SyntaxTree root = parse(axiom);
 		
 		cache.clear();
 		lruBuffer.clear();
 		
-		if(!lexer.next()) {
+		if(!lexer.next() && !unexpectedEOF) {
 			return root;
 		}
 		
@@ -357,6 +361,7 @@ public class StandardParser implements EditableParser {
 			
 			for(String product : rule) {
 				lexer.setStart(lexerPos);
+				
 				lexer.next();
 				
 				if(product.startsWith(TERMINAL_PREFIX)) { //terminal
@@ -382,6 +387,9 @@ public class StandardParser implements EditableParser {
 							
 							continue;
 						}
+					}
+					else {
+						unexpectedEOF = true;
 					}
 					
 					if(unexpectedPosition < lexer.start())
@@ -419,8 +427,10 @@ public class StandardParser implements EditableParser {
 				
 			}
 			
-			if(accept)
+			if(accept) {
+				unexpectedEOF = false;
 				break;
+			}
 			else {
 				node.nexts.clear();
 				lexerPos = lexerStart;
