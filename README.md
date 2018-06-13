@@ -85,8 +85,7 @@ possible to divide the languages in modules, and at the same time,
 it is possible to design one interpreter for each language module. Then
 different modules and their interpreters may be composed in a single
 work. A JDL file is divided in two parts: lexicon and grammar. To define
-a lexicon for the language, regular expressions are used. Each lexicon
-type should be seen as a variable for the grammar. The grammar is
+a lexicon for the language, regular expressions are used. The grammar is
 expressed in BNF (Backus-Naur Form), because, in many cases, the BNF is
 simpler to manage during semantic analysis than the EBNF (Extended BNF).
 A grammar rule cannot produce directly a ground terminal, but each
