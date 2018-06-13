@@ -66,6 +66,8 @@ String compilationResult = compiler.compile("regexanother regex");
 System.out.println(compilationResult); //prints "regex - another regex"
 ```
 
+And now, please continue reading.
+
 # Objectives of the library
 
 ## 1. Introduction.
