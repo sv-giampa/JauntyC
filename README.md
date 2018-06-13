@@ -7,7 +7,9 @@ For more details see the following:
 
 * JavaDoc: https://sv-giampa.github.io/JointyC-Library/
 
-* Tutorials and template project: 	https://github.com/sv-giampa/JointyC-Tutorials
+* Tutorials Wiki: https://github.com/sv-giampa/JointyC-Tutorials/wiki
+
+* Tutorials and template project: https://github.com/sv-giampa/JointyC-Tutorials
 
 ## 1. Introduction.
 
