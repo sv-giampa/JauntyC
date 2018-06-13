@@ -12,8 +12,7 @@ For more details see the following:
 * Tutorials and template project: https://github.com/sv-giampa/JointyC-Tutorials
 
 # A very fast presentation of the idea
-After this very short description really few things will be clear, but probably the power of JointyC will be one of these.
-
+After this very short description, really few things will be clear, but probably the power of JointyC will be one of these.
 
 Three main steps to write a compiler with JointyC:
 
