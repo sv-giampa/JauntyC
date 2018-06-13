@@ -11,6 +11,63 @@ For more details see the following:
 
 * Tutorials and template project: https://github.com/sv-giampa/JointyC-Tutorials
 
+# A very fast presentation of the idea
+After this very short description really few things will be clear, but probably the power of JointyC will be one of these.
+
+
+Three main steps to write a compiler with JointyC:
+
+1) Write your language specifics in the JointyC Definition Language:
+```
+//Language.jdl file
+language: yourLanguage;
+
+lexicon:{
+	myToken = /regex/$, "description of token";
+	mySecondToken = /another regex/$, "description of the second token";
+}
+
+grammar:{
+	axiom = nonTerminal $myToken;
+	nonTerminal = $mySecondToken;
+}
+```
+
+2) write the interpreter of the language
+```
+//MyInterpreter.java file
+class MyInterpreter implements Interpreter{
+
+	@TerminalToken(type="yourLanguage.myToken") 		//bind the "firstToken" method to the "myToken" token
+	private String firstToken(){
+		return "myToken";
+	}
+	
+	@TerminalToken(type="yourLanguage.mySecondToken") 	//bind the "secondToken" method to the "mySecondToken" token
+	private String secondToken(SyntaxTree tree){
+		return tree.token();
+	}
+	
+	@NonTerminalToken(ruleHead="yourLanguage.axiom", ruleProduction = {"yourLanguage.nonTerminal", "$yourLanguage.myToken"}) //bind the "computeAxiom" method to the non-temrinal "axiom"
+	private String computeAxiom(String firstToken, String secondToken){
+		return firstToken + " - " + secondToken;
+	}
+}
+```
+
+3) instantiate the compiler:
+```
+//some main() method or façade
+JdlCompiler jdlc = new JdlCompiler();
+StandardCompiler compiler = jdlc.compileResource("Language.jdl", new MyInterpreter());
+
+//...then use the compiler...
+String compilationResult = compiler.compile("regexanother regex");
+System.out.println(compilationResult); //prints "regex - another regex"
+```
+
+# Objectives of the library
+
 ## 1. Introduction.
 
 JointyC is a Java library to write compilers. Its main target is to move
