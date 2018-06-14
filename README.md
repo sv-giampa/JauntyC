@@ -112,7 +112,7 @@ runtime, but only loaded).
 The target, from the point of view of Software Engineering, is to write
 a parser according to its language specifics, and to modify it when the
 language specifics are changed or extended.
-More details over this process and other functionalities are described
+More details about this process and other functionalities are reported
 in the documentation and in the wiki.
 
 
@@ -121,7 +121,7 @@ in the documentation and in the wiki.
 The analysis framework is divided in three sub-modules: lexer, parser and
 semantic analyzer. The framework provides all the interfaces that define
 the functionalities for lexers, parsers and interpreters.
-Lexer and parser modules define a proper final implementation, indicated
+Lexer and parser modules define proper final implementations, named
 with the "Standard" prefix: the StandardLexer and the StandardParser.
 The semantic module provides a standard syntax tree exploring machinery,
 defined by the SemanticAnalyzer class. This class implements an iterative
@@ -161,7 +161,7 @@ choices for designing a language for some project. It is emphasized
 that this library is under Apache License 2.0, and then it could be
 integrated also in a proprietary software, or used as a starting point
 to obtain an enhanced version of it. To familiarize with JointyC and its
-programming method, it is highly recommended to start exploring the
+programming logics, it is highly recommended to start exploring the
 provided tutorials and documentation.
 		
 		
