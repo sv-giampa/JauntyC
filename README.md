@@ -11,7 +11,25 @@ For more details see the following:
 
 * Tutorials and template project: https://github.com/sv-giampa/JointyC-Tutorials
 
-Follow a fast presentation of the library and more detailed introduction.
+## Introduction
+
+JointyC is a Java library to write compilers. Its main target is to move
+the attention of the developer from parsing to the semantic analysis and,
+at the same time, to simplify this part of work.
+The library is divided in two main modules:
+
+1. The analysis framework
+
+2. The JointyC Definition Language Compiler (JDLC)
+
+The first module exposes a framework to face up to the analysis work,
+composed by lexical, syntactic and semantic analysis.
+The second module is based on the first one and provides a compiler for
+the JointyC Definition Language (JDL), used to define recursive-descent
+parsers for context-free languages, that can be adorned with contextual
+information during semantic analysis.
+
+Follows a fast presentation of the library and more detailed introduction.
 
 # A very fast presentation of the idea
 After this very short description, really few things will be clear, but probably the power of JointyC will be one of these.
@@ -72,26 +90,7 @@ And now, please continue reading.
 # Objectives of the library
 This is a more detailed presentation of the library.
 
-## 1. Introduction.
-
-JointyC is a Java library to write compilers. Its main target is to move
-the attention of the developer from parsing to the semantic analysis and,
-at the same time, to simplify this part of work.
-The library is divided in two main modules:
-
-1. The analysis framework
-
-2. The JointyC Definition Language Compiler (JDLC)
-
-The first module exposes a framework to face up to the analysis work,
-composed by lexical, syntactic and semantic analysis.
-The second module is based on the first one and provides a compiler for
-the JointyC Definition Language (JDL), used to define recursive-descent
-parsers for context-free languages, that can be adorned with contextual
-information during semantic analysis.
-
-
-## 2. Software Engineering in the scope.
+## Software Engineering in the scope
 
 As anticipated, the most important target of JointyC is to simplify the
 work of the developers, not only during construction, but also during 
@@ -117,7 +116,7 @@ More details over this process and other functionalities are described
 in the documentation and in the wiki.
 
 
-## 3. The analysis framework.
+## The analysis framework
 
 The analysis framework is divided in three sub-modules: lexer, parser and
 semantic analyzer. The framework provides all the interfaces that define
@@ -136,7 +135,7 @@ necessarily use the JDL Compiler. Moreover, it is recommended to use the
 JDL Compiler, to obtain a higher maintenance and readability performance.
 
 
-## 4. The JointyC Definition Language Compiler (JDL Compiler).
+## The JointyC Definition Language Compiler (JDL Compiler)
 
 By using the JDL Compiler it is possible to define and compile a parser
 and the associated lexer at run-time. The objective is to have a double
@@ -155,7 +154,7 @@ allows to keep the grammar and the access to the syntax tree as generic
 as possible.
 
 
-## 5. Conclusions and recommendations.
+## Conclusions and recommendations
 
 For the explained reasons, the JointyC library could be one of the best
 choices for designing a language for some project. It is emphasized
