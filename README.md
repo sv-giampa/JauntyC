@@ -11,19 +11,21 @@ For more details see the following:
 
 * Tutorials and template project: https://github.com/sv-giampa/JointyC-Tutorials
 
+Follow a fast presentation of the library and more detailed introduction.
+
 # A very fast presentation of the idea
 After this very short description, really few things will be clear, but probably the power of JointyC will be one of these.
 
-Three main steps to write a compiler with JointyC:
+Execute three main steps to write a compiler with JointyC:
 
-1) Write your language specifics in the JointyC Definition Language:
+1) write your language specifics in the JointyC Definition Language:
 ```
 //Language.jdl file
 language: yourLanguage;
 
 lexicon:{
-	myToken = /regex/$, "description of token";
-	mySecondToken = /another regex/$, "description of the second token";
+	myToken = /token1/$, "description of token";
+	mySecondToken = /token2/$, "description of the second token";
 }
 
 grammar:{
@@ -32,7 +34,7 @@ grammar:{
 }
 ```
 
-2) write the interpreter of the language
+2) write the interpreter of the language:
 ```
 //MyInterpreter.java file
 class MyInterpreter implements Interpreter{
@@ -61,13 +63,14 @@ JdlCompiler jdlc = new JdlCompiler();
 StandardCompiler compiler = jdlc.compileResource("Language.jdl", new MyInterpreter());
 
 //...then use the compiler...
-String compilationResult = compiler.compile("regexanother regex");
-System.out.println(compilationResult); //prints "regex - another regex"
+String compilationResult = compiler.compile("  token1   token2 ");
+System.out.println(compilationResult); //prints "token1 - token2"
 ```
 
 And now, please continue reading.
 
 # Objectives of the library
+This is a more detailed presentation of the library.
 
 ## 1. Introduction.
 
