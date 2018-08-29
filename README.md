@@ -92,7 +92,7 @@ This is a more detailed presentation of the library.
 
 ## Software Engineering in the scope
 
-As anticipated, the most important target of JointyC is to simplify the
+As anticipated, the most important goal of JointyC is to simplify the
 work of the developers, not only during construction, but also during 
 maintenance. In fact, writing a recursive descent parser may result in
 a difficult maintenance task. On the other hand, using a parser generator
