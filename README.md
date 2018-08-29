@@ -87,7 +87,7 @@ System.out.println(compilationResult); //prints "token1 - token2"
 
 And now, please continue reading.
 
-# Objectives of the library
+# Goals of the library
 This is a more detailed presentation of the library.
 
 ## Software Engineering in the scope
