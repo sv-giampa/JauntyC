@@ -7,9 +7,11 @@ For more details see the following:
 
 * JavaDoc: https://sv-giampa.github.io/JointyC-Library/
 
-* Tutorials and template project: 	https://github.com/sv-giampa/JointyC-Tutorials
+* Tutorials Wiki: https://github.com/sv-giampa/JointyC-Tutorials/wiki
 
-## 1. Introduction.
+* Tutorials and template project: https://github.com/sv-giampa/JointyC-Tutorials
+
+## Introduction
 
 JointyC is a Java library to write compilers. Its main target is to move
 the attention of the developer from parsing to the semantic analysis and,
@@ -27,10 +29,70 @@ the JointyC Definition Language (JDL), used to define recursive-descent
 parsers for context-free languages, that can be adorned with contextual
 information during semantic analysis.
 
+Follows a fast presentation of the library and more detailed introduction.
 
-## 2. Software Engineering in the scope.
+# A very fast presentation of the idea
+After this very short description, really few things will be clear, but probably the power of JointyC will be one of these.
 
-As anticipated, the most important target of JointyC is to simplify the
+Execute three main steps to write a compiler with JointyC:
+
+1) write your language specifics in the JointyC Definition Language:
+```
+//Language.jdl file
+language: yourLanguage;
+
+lexicon:{
+	myToken = /token1/$, "description of token";
+	mySecondToken = /token2/$, "description of the second token";
+}
+
+grammar:{
+	axiom = nonTerminal $myToken;
+	nonTerminal = $mySecondToken;
+}
+```
+
+2) write the interpreter of the language:
+```
+//MyInterpreter.java file
+class MyInterpreter implements Interpreter{
+
+	@TerminalToken(type="yourLanguage.myToken") 		//bind the "firstToken" method to the "myToken" token
+	private String firstToken(){
+		return "myToken";
+	}
+	
+	@TerminalToken(type="yourLanguage.mySecondToken") 	//bind the "secondToken" method to the "mySecondToken" token
+	private String secondToken(SyntaxTree tree){
+		return tree.token();
+	}
+	
+	@NonTerminalToken(ruleHead="yourLanguage.axiom", ruleProduction = {"yourLanguage.nonTerminal", "$yourLanguage.myToken"}) //bind the "computeAxiom" method to the non-temrinal "axiom"
+	private String computeAxiom(String firstToken, String secondToken){
+		return firstToken + " - " + secondToken;
+	}
+}
+```
+
+3) instantiate the compiler:
+```
+//some main() method or façade
+JdlCompiler jdlc = new JdlCompiler();
+StandardCompiler compiler = jdlc.compileResource("Language.jdl", new MyInterpreter());
+
+//...then use the compiler...
+String compilationResult = compiler.compile("  token1   token2 ");
+System.out.println(compilationResult); //prints "token1 - token2"
+```
+
+And now, please continue reading.
+
+# Goals of the library
+This is a more detailed presentation of the library.
+
+## Software Engineering in the scope
+
+As anticipated, the most important goal of JointyC is to simplify the
 work of the developers, not only during construction, but also during 
 maintenance. In fact, writing a recursive descent parser may result in
 a difficult maintenance task. On the other hand, using a parser generator
@@ -50,16 +112,16 @@ runtime, but only loaded).
 The target, from the point of view of Software Engineering, is to write
 a parser according to its language specifics, and to modify it when the
 language specifics are changed or extended.
-More details over this process and other functionalities are described
+More details about this process and other functionalities are reported
 in the documentation and in the wiki.
 
 
-## 3. The analysis framework.
+## The analysis framework
 
 The analysis framework is divided in three sub-modules: lexer, parser and
 semantic analyzer. The framework provides all the interfaces that define
 the functionalities for lexers, parsers and interpreters.
-Lexer and parser modules define a proper final implementation, indicated
+Lexer and parser modules define proper final implementations, named
 with the "Standard" prefix: the StandardLexer and the StandardParser.
 The semantic module provides a standard syntax tree exploring machinery,
 defined by the SemanticAnalyzer class. This class implements an iterative
@@ -73,7 +135,7 @@ necessarily use the JDL Compiler. Moreover, it is recommended to use the
 JDL Compiler, to obtain a higher maintenance and readability performance.
 
 
-## 4. The JointyC Definition Language Compiler (JDL Compiler).
+## The JointyC Definition Language Compiler (JDL Compiler)
 
 By using the JDL Compiler it is possible to define and compile a parser
 and the associated lexer at run-time. The objective is to have a double
@@ -83,8 +145,7 @@ possible to divide the languages in modules, and at the same time,
 it is possible to design one interpreter for each language module. Then
 different modules and their interpreters may be composed in a single
 work. A JDL file is divided in two parts: lexicon and grammar. To define
-a lexicon for the language, regular expressions are used. Each lexicon
-type should be seen as a variable for the grammar. The grammar is
+a lexicon for the language, regular expressions are used. The grammar is
 expressed in BNF (Backus-Naur Form), because, in many cases, the BNF is
 simpler to manage during semantic analysis than the EBNF (Extended BNF).
 A grammar rule cannot produce directly a ground terminal, but each
@@ -93,14 +154,14 @@ allows to keep the grammar and the access to the syntax tree as generic
 as possible.
 
 
-## 5. Conclusions and recommendations.
+## Conclusions and recommendations
 
 For the explained reasons, the JointyC library could be one of the best
 choices for designing a language for some project. It is emphasized
 that this library is under Apache License 2.0, and then it could be
 integrated also in a proprietary software, or used as a starting point
 to obtain an enhanced version of it. To familiarize with JointyC and its
-programming method, it is highly recommended to start exploring the
+programming logics, it is highly recommended to start exploring the
 provided tutorials and documentation.
 		
 		
