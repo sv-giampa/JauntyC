@@ -18,31 +18,35 @@
 package jointyc.analysis.lexer;
 
 import java.util.Set;
+import java.util.regex.PatternSyntaxException;
 
 /**
- * Defines the interface of a generic lexer.</br>
- * </br>
+ * Defines the interface of a generic lexer.<br>
+ * <br>
  * A lexer is thought to recognize the membership of tokens to some "type",
- * defined through some notation, such as regular expressions.</br>
- * </br>
+ * defined through some notation, such as regular expressions.<br>
+ * <br>
  * A lexer is generically non editable. This interface
- * does not provide any modifier method for the lex rules (see {@link EditableLexer}).</br>
- * </br>
+ * does not provide any modifier method for the lex rules (see {@link EditableLexer}).<br>
+ * <br>
  * A token might match multiple types, and each matched type might
- * refer to a certain token with a certain length.</br>
- * </br>
+ * refer to a certain token with a certain length.<br>
+ * <br>
  * For instance:
  * <ul>
- * 		<li>Three token types could be defined: <ul>
- * 				<li>- "double": matches double precision floating points (e.g. "31.4");
- * 				<li>- "integer": matches integer number (e.g. "15");
- * 				<li>- "ip": matches an Internet Protocol Address (e.g. "192.168.1.1");
- * 				</ul>
+ * 		<li>Three token types could be defined:
+ * 		<ul>
+ * 			<li>- "double": matches double precision floating points (e.g. "31.4");
+ * 			<li>- "integer": matches integer number (e.g. "15");
+ * 			<li>- "ip": matches an Internet Protocol Address (e.g. "192.168.1.1");
+ * 		</ul>
  * 
- *  	<li>the token "23.57.72.4":<ul>
- *  	<li>- matches the type "double" as "23.57";
- *  	<li>- matches the type "integer" as "23";
- *  	<li>- matches the type "ip" as "23.57.72.4";
+ *  	<li>the token "23.57.72.4":
+ *  	<ul>
+ *  		<li>- matches the type "double" as "23.57";
+ *  		<li>- matches the type "integer" as "23";
+ *  		<li>- matches the type "ip" as "23.57.72.4";
+ *  	</ul>
  * </ul>
  * 
  * @author Salvatore Giampà
@@ -54,16 +58,16 @@ public interface Lexer extends Cloneable{
 	 * Sets the input string for this lexer
 	 * @param input the string to lex
 	 */
-	void setInput(String input);
+	void setInput(CharSequence input) throws PatternSyntaxException;
 	
 	/**
-	 * Recognizes if the last discovered tokens is a member of the specified type group.</br>
-	 * This method should be used after a call to the {@link #next()} method.</br>
-	 * </br>
+	 * Recognizes if the last discovered token is a member of the specified type group.<br>
+	 * This method should be used after a call to the {@link #next()} method.<br>
+	 * <br>
 	 * For example: <ul>
 	 * 			<li>if there are three types, "double", "integer" and "letters", the token "38.5"
 	 * 				would match the type "double" as "38.5" and the type "integer" as "38", but not
-	 * 				the type "string".</br>
+	 * 				the type "string".<br>
 	 * 				Then at position 0 of the token "    38.5  "
 	 * 				(note the spaces before character '3' and after character '5'):<ul>
 	 * 					<li>the call token("double") will return "38.5";
@@ -77,7 +81,7 @@ public interface Lexer extends Cloneable{
 	 * @param type the name of the token type
 	 * @return the token that matches the type or null if no token was found for the specified type, at the first position where another one matched
 	 */
-	String token(String type);
+	CharSequence token(String type);
 	
 	/**
 	 * Get the token that matches the default type of the matched types.
@@ -85,7 +89,7 @@ public interface Lexer extends Cloneable{
 	 * The default type definition could change for some implementations.
 	 * @return the token that is member of the default type.
 	 */
-	String token();
+	CharSequence token();
 	
 
 	/**
@@ -123,10 +127,10 @@ public interface Lexer extends Cloneable{
 	void setStart(int position);
 	
 	/**
-	 * Get the input string setted by the {@link #setInput(String)} method.
+	 * Get the input CharSequence.
 	 * @return the input string
 	 */
-	String input();
+	CharSequence input();
 	
 	/**
 	 * Search the next token matching.

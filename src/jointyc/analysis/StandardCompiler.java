@@ -17,7 +17,10 @@
 
 package jointyc.analysis;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.regex.PatternSyntaxException;
 
 import jointyc.analysis.lexer.Lexer;
 import jointyc.analysis.parser.Parser;
@@ -26,6 +29,7 @@ import jointyc.analysis.parser.exception.UnexpectedSymbolException;
 import jointyc.analysis.semantic.Interpreter;
 import jointyc.analysis.semantic.SemanticAnalyzer;
 import jointyc.analysis.semantic.exception.SemanticException;
+import jointyc.charsequence.FileCharSequence;
 
 /**
  * Defines a standard implementation of a compiler, assembling the given parser and the given interpreter.
@@ -52,8 +56,14 @@ public final class StandardCompiler implements Serializable {
 		this.analyzer = new SemanticAnalyzer(interpreter, parser);
 	}
 	
-	public Object compile(String source) throws UnexpectedSymbolException, SemanticException{
+	public Object compile(CharSequence source) throws UnexpectedSymbolException, SemanticException{
 		parser.getLexer().setInput(source);
+		SyntaxTree tree = parser.parse();
+		return analyzer.analyze(tree);
+	}
+	
+	public Object compile(File file) throws UnexpectedSymbolException, SemanticException, IOException{
+		parser.getLexer().setInput(new FileCharSequence(file));
 		SyntaxTree tree = parser.parse();
 		return analyzer.analyze(tree);
 	}

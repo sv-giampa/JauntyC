@@ -32,7 +32,7 @@ public class TerminalReplicationException extends RuntimeException {
 
 	public TerminalReplicationException(Class<?> interpreterClass, Method interpreterMethod, TerminalToken tokenType) {
 		super("The method " + interpreterClass.getCanonicalName() + "." + interpreterMethod.getName() + 
-				"() replicates the rule '" + tokenType.type() + "'");
+				"() replicates the rule '" + tokenType.value() + "'");
 		
 		this.interpreterClass = interpreterClass;
 		this.interpreterMethod = interpreterMethod;

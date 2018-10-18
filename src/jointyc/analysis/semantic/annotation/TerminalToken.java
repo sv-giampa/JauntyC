@@ -26,5 +26,5 @@ public @interface TerminalToken {
 	 * 
 	 * @return The lexicon token type that must be associated to the annotated interpreter method
 	 */
-	String type();
+	String value();
 }

@@ -37,7 +37,7 @@ final class SyntaxNode implements SyntaxTree{
 	int start;
 	int end;
 	Set<String> similarTypes;
-	String source;
+	CharSequence source;
 	Lexer lexer;
 	
 	LinkedList<SyntaxNode> nexts;
@@ -73,7 +73,7 @@ final class SyntaxNode implements SyntaxTree{
 		}
 		sb.append("> ");
 		
-		sb.append(String.format("token=\"%s\", type=%s, similarTypes=%s, [start,end]=[%d,%d], terminal=%s", token().replaceAll("\\n", "\\\\n"), type, similarTypes, start, end, terminal));
+		sb.append(String.format("token=\"%s\", type=%s, similarTypes=%s, [start,end]=[%d,%d], terminal=%s", token().toString().replaceAll("\\n", "\\\\n"), type, similarTypes, start, end, terminal));
 		sb.append('\n');
 		
 		for(SyntaxTree subtree : this){
@@ -113,9 +113,9 @@ final class SyntaxNode implements SyntaxTree{
 	}
 
 	@Override
-	public String token() {
+	public CharSequence token() {
 		if(start <= end)
-			return source.substring(start, end+1);
+			return source.subSequence(start, end+1);
 		else
 			return "";
 	}
@@ -126,7 +126,7 @@ final class SyntaxNode implements SyntaxTree{
 	}
 
 	@Override
-	public String source() {
+	public CharSequence source() {
 		return source;
 	}
 

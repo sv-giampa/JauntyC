@@ -83,9 +83,9 @@ class JdlInterpreter implements Interpreter {
 		imports.clear();
 	}
 
-	@TerminalToken(type="languageName")
+	@TerminalToken(value="languageName")
 	private Object languageName(SyntaxTree tree) {
-		String lang = tree.token();
+		String lang = tree.token().toString();
 		languageName = lang;
 		assiome = null;
 		
@@ -97,48 +97,48 @@ class JdlInterpreter implements Interpreter {
 		return lang;
 	}
 
-	@TerminalToken(type="langId")
-	@TerminalToken(type="ruleName")
-	@TerminalToken(type="ruleProduct")
+	@TerminalToken(value="langId")
+	@TerminalToken(value="ruleName")
+	@TerminalToken(value="ruleProduct")
 	private String getToken(SyntaxTree tree) {
-		return tree.token();
+		return tree.token().toString();
 	}
 
-	@TerminalToken(type="type")
+	@TerminalToken(value="type")
 	private String type(SyntaxTree tree) {
 		return languageName + "." + tree.token();
 	}
 	
-	@TerminalToken(type="importing")
+	@TerminalToken(value="importing")
 	private String importing(SyntaxTree tree) {
-		String filename = tree.token();
+		String filename = tree.token().toString();
 		return filename.substring(1, filename.length()-1);
 	}
 
-	@TerminalToken(type="productionSeparator")
+	@TerminalToken(value="productionSeparator")
 	private String productionSeparator() {
 		return "productionSeparator";
 	}
 	
-	@TerminalToken(type="emptyString")
+	@TerminalToken(value="emptyString")
 	private String emptyString() {
 		return "emptyString";
 	}
 	
-	@TerminalToken(type="terminalPrefix")
+	@TerminalToken(value="terminalPrefix")
 	private String terminalPrefix() {
 		return "terminalPrefix";
 	}
 	
-	@TerminalToken(type="regex")
+	@TerminalToken(value="regex")
 	private String regex(SyntaxTree tree) {
-		String regex = tree.token();
+		String regex = tree.token().toString();
 		return regex.substring(1,regex.length()-2);
 	}
 	
-	@TerminalToken(type="description")
+	@TerminalToken(value="description")
 	private String description(SyntaxTree tree) {
-		String description = tree.token();
+		String description = tree.token().toString();
 		return "'" + description.substring(1,description.length()-1) + "'";
 	}
 	

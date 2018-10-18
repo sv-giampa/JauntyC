@@ -17,6 +17,8 @@
 
 package jointyc.analysis.lexer;
 
+import java.util.regex.PatternSyntaxException;
+
 /**
  * Defines an editable lexer, that allows to edit its token types and properties.
  * @author Salvatore Giampà
@@ -25,13 +27,14 @@ package jointyc.analysis.lexer;
 public interface EditableLexer extends Lexer {
 
 	/**
-	 * Add a new token type.
+	 * Add a new token type, validating the regex and throwing a PatternSyntaxException in the case that the regex is not valid.
 	 * @param type the type name
 	 * @param regex the regular expression that match the new type
 	 * @param description a printable description for this type
 	 * @param skip true if this token type must be skipped by the lexer
+	 * @throws PatternSyntaxException when the regex is not valid
 	 */
-	void addType(String type, String regex, String description, boolean skip);
+	void addType(String type, String regex, String description, boolean skip) throws PatternSyntaxException;
 	
 	/**
 	 * Add a new non-skippable token type.

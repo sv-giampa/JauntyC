@@ -31,13 +31,12 @@ public class SemanticException extends Exception {
 	private static final long serialVersionUID = 1021579297957230596L;
 	
 	public final Throwable supplement;
-	public final String token, source, tag;
+	public final CharSequence token, source, tag;
 	public int start, end, startLine, startColumn, endLine, endColumn;
 	
 	
 	/**
 	 * Creates a new SemanticException
-	 * @param message a string message printed with the stack trace
 	 * @param supplement a supplementary object, containing more specific information about the error
 	 * @param tree the syntax tree node in which the error occurs
 	 * @param tag a tag associated with the exception, usually the name of compiler class, the name of the compiled language or
@@ -75,6 +74,11 @@ public class SemanticException extends Exception {
 		}
 	}
 	
+	/**
+	 * As {@link #SemanticException(Throwable, SyntaxTree, String)}, setting a null tag.
+	 * @param supplement a supplementary object, containing more specific information about the error
+	 * @param tree the syntax tree node in which the error occurs
+	 */
 	public SemanticException(Throwable supplement, SyntaxTree tree){
 		this(supplement, tree, null);
 	}

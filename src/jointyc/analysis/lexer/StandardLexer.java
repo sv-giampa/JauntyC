@@ -27,15 +27,16 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Implements a basic editable lexer.
  * This lexer skips all the tokens that are not matched by a rule. So it is necessary to define a rule for every
  * relevant token. If some tokens must be recognized as erroneous, such as a special character, at least one rule must be defined to match them.
- * Usually, along with other token types of the lexicon, one another is defined to macth all the erroneous relevant characters.</br>
- * </br>
- * For instance, if only the white spaces must be skipped, it could be defined the following rule: </br><code>lexer.addType("erroneous", "[^\s]");</code>
- * </br>
+ * Usually, along with other token types of the lexicon, one another is defined to macth all the erroneous relevant characters.<br>
+ * <br>
+ * For instance, if only the white spaces must be skipped, it could be defined the following rule: <br><code>lexer.addType("erroneous", "[^\s]");</code>
+ * <br>
  * @author Salvatore Giampà
  *
  */
@@ -43,15 +44,15 @@ public final class StandardLexer implements EditableLexer{
 	
 	private static class RegexEntry{
 		public final String type;
-		public final String regex;
+		public final Pattern regex;
 		
-		public RegexEntry(String type, String regex){
+		public RegexEntry(String type, Pattern regex){
 			this.type = type;
 			this.regex = regex;
 		}
 	}
 	
-	private String input;
+	private CharSequence input;
 	private String token;
 	private String tokenType;
 	private int position;
@@ -70,14 +71,14 @@ public final class StandardLexer implements EditableLexer{
 	private Set<String> skippableSet = new HashSet<>();
 	private Map<String, Matcher> matcherMap = new HashMap<>();
 	
-	public void setInput(String input){
+	public void setInput(CharSequence input) throws PatternSyntaxException{
 		this.input = input;
 		
 		matcherMap.clear();
 		position = end = 0;
 		
 		for(RegexEntry e : regexTable)
-			matcherMap.put(e.type, Pattern.compile(e.regex).matcher(input));
+			matcherMap.put(e.type, e.regex.matcher(input));
 	}
 	
 	public StandardLexer(){
@@ -189,8 +190,8 @@ public final class StandardLexer implements EditableLexer{
 	public void addAlias(String newType, String refType){
 	}
 	
-	public void addType(String type, String regex, String description, boolean skip) {
-		regexTable.add(new RegexEntry(type, regex));
+	public void addType(String type, String regex, String description, boolean skip) throws PatternSyntaxException{
+		regexTable.add(new RegexEntry(type, Pattern.compile(regex)));
 		descriptionTable.put(type, description);
 		
 		if(input != null)
@@ -212,7 +213,7 @@ public final class StandardLexer implements EditableLexer{
 	}
 	
 	@Override
-	public String input() {
+	public CharSequence input() {
 		return input;
 	}
 
@@ -259,7 +260,7 @@ public final class StandardLexer implements EditableLexer{
 	public String regex(String type) {
 		for(RegexEntry e : regexTable)
 			if(e.type.equals(type))
-				return e.regex;
+				return e.regex.toString();
 		return null;
 	}
 

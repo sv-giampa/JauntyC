@@ -216,7 +216,7 @@ public class StandardParser implements EditableParser {
 	 */
 	private Set<ExpectedTerminal> expected;
 	
-	private String unexpectedToken;
+	private CharSequence unexpectedToken;
 	
 	private int unexpectedPosition;
 	
@@ -367,7 +367,7 @@ public class StandardParser implements EditableParser {
 				if(product.startsWith(TERMINAL_PREFIX)) { //terminal
 					String type = product.substring(1);
 					if(lexer.next()) {
-						String token = lexer.token(type);
+						CharSequence token = lexer.token(type);
 						if(token != null) {
 							if(unexpectedPosition < lexer.end())
 								expected.clear();

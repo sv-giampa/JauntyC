@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="JointyC - Library/jar/JointyC-v2.0.1.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/JointyC - Library/exportJar.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="false" exportJavaFiles="true" exportOutputFolder="true">
+        <file path="/JointyC - Library/README.md"/>
+        <file path="/JointyC - Library/NOTICE.txt"/>
+        <folder path="/JointyC - Library/docs"/>
+        <file path="/JointyC - Library/JDL.jdl"/>
+        <file path="/JointyC - Library/LICENSE.txt"/>
+        <javaElement handleIdentifier="=JointyC - Library/src"/>
+    </selectedElements>
+</jardesc>

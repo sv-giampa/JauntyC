@@ -50,7 +50,7 @@ public interface Parser {
 	
 	/**
 	 * Gets the productions associated to the specified rule head.
-	 * The returned production lists adhere to the logic of {@link #addRule(String, String...)}, to distinguish terminal tokens from non-terminal ones.
+	 * The returned production lists adhere to the logic of {@link EditableParser#addRule(String, String...)}, to distinguish terminal tokens from non-terminal ones.
 	 * @param head the head of the rule
 	 * @return the list of production lists
 	 */
@@ -60,7 +60,8 @@ public interface Parser {
 	
 	/**
 	 * Check the existence of at least a production rule for the specified non-terminal token.
-	 * @param token the head of the productions rules to be checked. It is a non-terminal token.
+	 * @param head the head of the productions rules to be checked. It is a non-terminal token.
+	 * @param production the elements of the production body
 	 * @return true if the specified non-terminal token produces something, false otherwise.
 	 */
 	boolean ruleExists(String head, String... production);

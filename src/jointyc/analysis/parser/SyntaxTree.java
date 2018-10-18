@@ -84,14 +84,14 @@ public interface SyntaxTree extends Iterable<SyntaxTree>, Serializable {
 	 * 
 	 * @return the token itself as string
 	 */
-	public String token();
+	public CharSequence token();
 
 	/**
 	 * Gets the source string the token was extracted from.
 	 * 
 	 * @return the parsed source string
 	 */
-	public String source();
+	public CharSequence source();
 
 	/**
 	 * Gets the lexer used for the parsing.
@@ -104,43 +104,43 @@ public interface SyntaxTree extends Iterable<SyntaxTree>, Serializable {
 	/**
 	 * Queries for a rule start part. Checks if this tree has a certain type, and
 	 * then proceeds testing the types of the first k children, where k is the
-	 * size of the production array specified.</br>
-	 * </br>
-	 * Terminal and non-terminal symbols are distinguished in the production, by the prefix specified by {@link EditableParser#TERMINAL_PREFIX}.</br>    
-	 * See the logic of {@link EditableParser#addRule(String, String...)} for more information.</br>
-	 * </br>
-	 * If the specified production length is exactly 1 and its first element (production[0]) is equal to "#", then returns true if this tree has no next, false otherwise.</br>    
-	 * </br>
-	 * If the specified production length is exactly 1 and its first element (production[0]) is equal to "!#", then returns true if this tree has some next, false otherwise.</br>    
-	 * </br>
-	 * </br>
-	 * Example: (assume the character # is the empty string)</br>
+	 * size of the production array specified.<br>
+	 * <br>
+	 * Terminal and non-terminal symbols are distinguished in the production, by the prefix specified by {@link EditableParser#TERMINAL_PREFIX}.<br>    
+	 * See the logic of {@link EditableParser#addRule(String, String...)} for more information.<br>
+	 * <br>
+	 * If the specified production length is exactly 1 and its first element (production[0]) is equal to "#", then returns true if this tree has no next, false otherwise.<br>    
+	 * <br>
+	 * If the specified production length is exactly 1 and its first element (production[0]) is equal to "!#", then returns true if this tree has some next, false otherwise.<br>    
+	 * <br>
+	 * <br>
+	 * Example: (assume the character # is the empty string)<br>
 	 * 
-	 * Consider the following production rules:</br>
-	 * <code>a -> b c d | x y z | x f g</code></br>
-	 * <code>b -> p q | #</code></br>
-	 * And consider the following declaration:</br>
-	 * <code>SyntaxTree tree;</code></br>
-	 * </br>
-	 * The following are true:</br>
+	 * Consider the following production rules:<br>
+	 * <code>a -&#62; b c d | x y z | x f g</code><br>
+	 * <code>b -&#62; p q | #</code><br>
+	 * And consider the following declaration:<br>
+	 * <code>SyntaxTree tree;</code><br>
+	 * <br>
+	 * The following are true:<br>
 	 * <ul>
-	 * <li><code>tree.query("a", "x")</code> will return true if tree is of type "a" and its first next is of type "x".</br>
-	 * It will return true if the matching rule is "<code>a -> x y z</code>" or "<code>a -> x f g</code>"
+	 * <li><code>tree.query("a", "x")</code> will return true if tree is of type "a" and its first next is of type "x".<br>
+	 * It will return true if the matching rule is "<code>a -&#62; x y z</code>" or "<code>a -&#62; x f g</code>"
 	 * 
-	 * <li><code>tree.query("a", "x", "y")</code> will return true if tree is of type "a" and its first next is of type "x" and its second next is of type "y".</br>
-	 * It will return true if and only if the rule "<code>a -> x y z</code>" matched.
+	 * <li><code>tree.query("a", "x", "y")</code> will return true if tree is of type "a" and its first next is of type "x" and its second next is of type "y".<br>
+	 * It will return true if and only if the rule "<code>a -&#62; x y z</code>" matched.
 	 * 
-	 * <li><code>tree.query("b", "#")</code> will return true if tree is of type "b" and it has no next.</br>
-	 * It will return true if and only if the rule "<code>b -> #</code>" matched.
+	 * <li><code>tree.query("b", "#")</code> will return true if tree is of type "b" and it has no next.<br>
+	 * It will return true if and only if the rule "<code>b -&#62; #</code>" matched.
 	 * 
-	 * <li><code>tree.query("a", "#")</code> will return true if tree is of type "a" and it has no next.</br>
-	 * It will never return true, because the rule "<code>a -> #</code>" is not defined.
+	 * <li><code>tree.query("a", "#")</code> will return true if tree is of type "a" and it has no next.<br>
+	 * It will never return true, because the rule "<code>a -&#62; #</code>" is not defined.
 	 * 
-	 * <li><code>tree.query("b", "!#")</code> will return true if tree is of type "b" and it has some next.</br>
-	 * It will return true if and only if the rule "<code>b -> p q</code>" matched.
+	 * <li><code>tree.query("b", "!#")</code> will return true if tree is of type "b" and it has some next.<br>
+	 * It will return true if and only if the rule "<code>b -&#62; p q</code>" matched.
 	 * 
-	 * <li><code>tree.query("a", "!#")</code> will return true if tree is of type "a" and it has some next.</br>
-	 * It will always return true, because the rule "<code>a -> #</code>" is not defined.
+	 * <li><code>tree.query("a", "!#")</code> will return true if tree is of type "a" and it has some next.<br>
+	 * It will always return true, because the rule "<code>a -&#62; #</code>" is not defined.
 	 * </ul>
 	 * 
 	 * @param type the type of this syntax node

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Ddefines a simple, double direction, iterator over the sons of syntax node.</br></br>
+ * Defines a simple, double direction, iterator over the sons of syntax node.<br><br>
  * It does not impement the remove() operation. Trying the use of this, will throw an IllegalStateException.
  * @author Salvatore Giampà
  *

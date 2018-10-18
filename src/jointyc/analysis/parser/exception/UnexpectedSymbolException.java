@@ -21,13 +21,13 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Thrown when a parser has found an unexpected symbol.</br>
- * This exception stores some other information about the event:</br>
- * - the position, in terms of number of characters from position 0, of the unexpected symbol;</br>
- * - the position, in terms of line and column from position 0, of the unexpected symbol;</br>
- * - the string representation of the unexpected symbol;</br>
- * - the source string to be parsed;</br>
- * - the set of expected terminal tokens, each represented by an object of class {@link ExpectedTerminal}.</br>
+ * Thrown when a parser has found an unexpected symbol.<br>
+ * This exception stores some other information about the event:<br>
+ * - the position, in terms of number of characters from position 0, of the unexpected symbol;<br>
+ * - the position, in terms of line and column from position 0, of the unexpected symbol;<br>
+ * - the string representation of the unexpected symbol;<br>
+ * - the source string to be parsed;<br>
+ * - the set of expected terminal tokens, each represented by an object of class {@link ExpectedTerminal}.<br>
  * 
  * @author Salvatore Giampà
  *
@@ -36,8 +36,8 @@ public class UnexpectedSymbolException extends Exception{
 	private static final long serialVersionUID = 8241233218556749002L;
 	
 	/**
-	 * Represents an expected terminal token.</br>
-	 * It stores some information about the expected token:</br>
+	 * Represents an expected terminal token.<br>
+	 * It stores some information about the expected token:<br>
 	 * - the position, in terms of characters from position 0, which equals the unexpected symbol's position;
 	 * - a description of the expected terminal token (e.g. "if construct" for the token "if").
 	 * - the type of the expected token.
@@ -103,12 +103,12 @@ public class UnexpectedSymbolException extends Exception{
 	/**
 	 * The source string.
 	 */
-	public final String source;
+	public final CharSequence source;
 	
 	/**
 	 * The unexpected token.
 	 */
-	public final String unexpected;
+	public final CharSequence unexpected;
 	
 	/**
 	 * The position in lines of the unexpected token.
@@ -134,7 +134,7 @@ public class UnexpectedSymbolException extends Exception{
 	 * @param position the position of the unexpected symbol, in terms of number of characters
 	 * @param source the source string to be parsed
 	 */
-	public UnexpectedSymbolException(Set<ExpectedTerminal> expected, String found, int position, String source){
+	public UnexpectedSymbolException(Set<ExpectedTerminal> expected, CharSequence found, int position, CharSequence source){
 		this.source = source;
 		this.unexpected = found!=null? found : "";
 		this.expected = Collections.unmodifiableSet(expected);
@@ -155,8 +155,16 @@ public class UnexpectedSymbolException extends Exception{
 	
 	@Override
 	public String toString() {
-		String unexpected = this.unexpected
-				.replaceAll("\\n", "\\\\n")
+		int len = unexpected.length();
+		
+		String unexpected = "";
+		
+		if(this.unexpected.length() > 70)
+			unexpected = this.unexpected.subSequence(0, 30).toString() + " ... " + this.unexpected.subSequence(len-30, len).toString();
+		else
+			unexpected = this.unexpected.toString();
+		
+		unexpected.replaceAll("\\n", "\\\\n")
 				.replaceAll("\\r", "\\\\r")
 				.replaceAll("\\t", "\\\\t");
 		

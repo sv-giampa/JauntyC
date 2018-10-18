@@ -33,6 +33,7 @@ import jointyc.analysis.parser.exception.InvalidRuleNameException;
 import jointyc.analysis.parser.exception.UnexpectedSymbolException;
 import jointyc.analysis.semantic.Interpreter;
 import jointyc.analysis.semantic.exception.SemanticException;
+import jointyc.charsequence.FileCharSequence;
 
 
 /**
@@ -181,7 +182,7 @@ public class JdlCompiler {
 	 * @throws UnexpectedSymbolException if the source string presents syntax errors
 	 * @throws SemanticException if semantic errors are discovered
 	 */
-	public StandardCompiler compileSource(String source, Interpreter interpreter) throws UnexpectedSymbolException, SemanticException{
+	public StandardCompiler compileSource(CharSequence source, Interpreter interpreter) throws UnexpectedSymbolException, SemanticException{
 		this.interpreter.interpreterClass = interpreter.getClass();
 		EditableParser parser = (EditableParser) compiler.compile(source);
 		this.interpreter.reset();
@@ -193,12 +194,12 @@ public class JdlCompiler {
 	 * @param file the path of the JDL file
 	 * @param interpreter the interpreter of the language
 	 * @return a StandardCompiler for the language
+	 * @throws IOException if an IO/error occurs in file reading
 	 * @throws UnexpectedSymbolException if the source string presents syntax errors
 	 * @throws SemanticException if semantic errors are discovered
 	 */
 	public StandardCompiler compileFile(String file, Interpreter interpreter) throws IOException, UnexpectedSymbolException, SemanticException{
-		byte[] bytes = Files.readAllBytes(new File(file).toPath());
-		String source = new String(bytes);
+		FileCharSequence source = new FileCharSequence(new File(file));
 		return compileSource(source, interpreter);
 	}
 
@@ -207,6 +208,7 @@ public class JdlCompiler {
 	 * @param in the stream to compile
 	 * @param interpreter the interpreter of the language
 	 * @return a StandardCompiler for the language
+	 * @throws IOException if an IO/error occurs
 	 * @throws UnexpectedSymbolException if the source string presents syntax errors
 	 * @throws SemanticException if semantic errors are discovered
 	 */
@@ -223,13 +225,14 @@ public class JdlCompiler {
 
 	/**
 	 * Compile a JDL text file included as a Java resource and creates a StandardCompiler with the specified interpreter
-	 * @param path the path of the resource to compile.<br/>
+	 * @param path the path of the resource to compile.<br>
 	 * 			Examples: <ul>
 	 * 				<li>absolute package - "my/java/package/resource.jdl": the file "resource.jdl" is in the package "my.java.package";
 	 * 				<li>relative package - "resource.jdl": the file "resource.jdl" is in the same package of the interpreter
 	 * 			</ul>
 	 * @param interpreter the interpreter of the language
 	 * @return a StandardCompiler for the language
+	 * @throws IOException if an IO/error occurs in file reading
 	 * @throws UnexpectedSymbolException if the source string presents syntax errors
 	 * @throws SemanticException if semantic errors are discovered
 	 */

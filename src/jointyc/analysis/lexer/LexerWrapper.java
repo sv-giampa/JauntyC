@@ -37,17 +37,17 @@ public class LexerWrapper implements Lexer {
 	}
 	
 	@Override
-	public void setInput(String input) {
+	public void setInput(CharSequence input) {
 		lexer.setInput(input);
 	}
 
 	@Override
-	public String token(String type) {
+	public CharSequence token(String type) {
 		return lexer.token(type);
 	}
 	
 	@Override
-	public String token() {
+	public CharSequence token() {
 		return lexer.token();
 	}
 
@@ -77,7 +77,7 @@ public class LexerWrapper implements Lexer {
 	}
 
 	@Override
-	public String input() {
+	public CharSequence input() {
 		return lexer.input();
 	}
 
